@@ -11,6 +11,7 @@ function shuffleArray(list) {
         }
     }
 }
+
 function objectInArray(object, array) {
     for (var i=0; i < array.length; i++) {
         if (array[i].row == object.row && array[i].col == object.col) {
@@ -51,8 +52,8 @@ function Grid(dict) {
     
     this.entries = this.getBlankGrid();
     this.setBase();
-
 }
+
 Grid.prototype.setBase = function() {
     this.entryW  = this.width/(this.cols + 2*this.marg) - this.pad;
     this.entryH  = this.height/(this.rows + 2*this.marg) - this.pad;
@@ -68,9 +69,8 @@ Grid.prototype.setBase = function() {
     
     this.offW   = (this.width - this.totalW)/2 + this.left;
     this.offH   = (this.height - this.totalH)/2 + this.bottom;
-    
-    
 };
+
 Grid.prototype.getBlankGrid = function() {
     var blank = [];
     for (var row=0; row < this.rows; row++) {
@@ -80,7 +80,8 @@ Grid.prototype.getBlankGrid = function() {
         }
     }
     return blank;
-}; 
+};
+
 Grid.prototype.getObject = function(row, col) {
     row = isNaN(row) ? 0 : row;
     col = isNaN(col) ? 0 : col;
@@ -92,6 +93,7 @@ Grid.prototype.getObject = function(row, col) {
     }
     return this.entries[row][col];
 };
+
 Grid.prototype.addObject = function(object, row, col) {
     row = isNaN(row) ? 0 : row;
     col = isNaN(col) ? 0 : col;
@@ -107,6 +109,7 @@ Grid.prototype.addObject = function(object, row, col) {
     object.ele.attr({'row': row, 'col': col})
     return object;
 };
+
 Grid.prototype.next = function() {
     var row = 0;
     var col = 0;
@@ -126,6 +129,7 @@ Grid.prototype.next = function() {
         }
     }
 };
+
 Grid.prototype.first = function() {
     var row = 0;
     var col = 0;
@@ -143,22 +147,28 @@ Grid.prototype.first = function() {
         }
     }
 };
+
 Grid.prototype.popObject = function() {
     var pos = this.first();
     return this.getObject(pos.row, pos.col);
-}
+};
+
 Grid.prototype.pushObject = function(object) {
     var pos = this.next();
     this.addObject(object, pos.row, pos.col);
     object.ele.attr({'row': pos.row, 'col': pos.col});
-}
+};
+
 Grid.prototype.removeObject = function(row, col) {
     this.entries[row][col] = null;
+    // empty line
 };
+
 Grid.prototype.deleteObject = function(row, col) {
     this.getObject(row, col).remove();
     this.entries[row][col] = null;
 };
+
 Grid.prototype.drawObjects = function(ease, dur, order) {
     if (order) {
         this.timer = setInterval((function(context, row, col) {
@@ -191,6 +201,7 @@ Grid.prototype.drawObjects = function(ease, dur, order) {
         }
     }
 };
+
 Grid.prototype.hideObjects = function(ease, dur, order) {
     if (order) {
         this.timer = setInterval((function(context, row, col) {
@@ -223,6 +234,7 @@ Grid.prototype.hideObjects = function(ease, dur, order) {
         }
     }
 };
+
 Grid.prototype.moveObject = function(orow, ocol, row, col, clear, ease, dur) {
     var object = this.getObject(orow, ocol);
     if (object) {
@@ -236,6 +248,7 @@ Grid.prototype.moveObject = function(orow, ocol, row, col, clear, ease, dur) {
         }
     }
 };
+
 Grid.prototype.shuffle = function(ease, dur) {
     var order = [];
     for (var row=0; row < this.rows; row++) {
@@ -254,6 +267,7 @@ Grid.prototype.shuffle = function(ease, dur) {
     }
     this.entries = new_entries;
 };
+
 Grid.prototype.unshuffle = function(ease, dur) {
     var new_entries = this.getBlankGrid();
     for (var row=0; row < this.rows; row++) {
@@ -267,6 +281,7 @@ Grid.prototype.unshuffle = function(ease, dur) {
     }
     this.entries = new_entries;
 };
+
 Grid.prototype.shiftRows = function(ease, dur) {
     var new_entries = this.getBlankGrid();
     for (var row=0; row < this.rows; row++) {
@@ -278,6 +293,7 @@ Grid.prototype.shiftRows = function(ease, dur) {
     }
     this.entries = new_entries;
 };
+
 Grid.prototype.shiftCols = function(ease, dur) {
     var new_entries = this.getBlankGrid();
     for (var col=0; col < this.cols; col++) {
@@ -289,16 +305,19 @@ Grid.prototype.shiftCols = function(ease, dur) {
     }
     this.entries = new_entries;
 };
+
 Grid.prototype.scrollRows = function(ease, dur) {
     for (var row=0; row < this.rows; row++) {
         this.shiftRows(ease, dur);
     }
 };
+
 Grid.prototype.scrollCols = function(ease, dur) {
     for (var col=0; col < this.cols; col++) {
         this.shiftCols(ease, dur);
     }
 };
+
 Grid.prototype.getPosition = function(row, col) {
     return {'left':   this.offW + (col + this.marg)*this.entryW + col*this.pad,
             'bottom': this.offH + (row + this.marg)*this.entryH + row*this.pad,
@@ -306,10 +325,12 @@ Grid.prototype.getPosition = function(row, col) {
             'height': this.entryH
             };
 };
+
 Grid.prototype.nextPosition = function() {
     var pos = this.next();
     return this.getPosition(pos.row, pos.col);
 };
+
 Grid.prototype.pushToGrid = function(new_grid, row, col, ease, dur) {
     var object = this.getObject(row, col);
     if (object) {
@@ -319,6 +340,7 @@ Grid.prototype.pushToGrid = function(new_grid, row, col, ease, dur) {
         new_grid.pushObject(object);
     }
 };
+
 Grid.prototype.pushAllToGrid = function (new_grid, ease, dur) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -326,6 +348,7 @@ Grid.prototype.pushAllToGrid = function (new_grid, ease, dur) {
         }
     }
 };
+
 Grid.prototype.nextLeft = function(row) {
     var col = 0;
     while (col < this.cols) {
@@ -338,6 +361,7 @@ Grid.prototype.nextLeft = function(row) {
     }
     return -1
 };
+
 Grid.prototype.nextRight = function(row) {
     var col = this.cols;
     while (col >= 0) {
@@ -350,6 +374,7 @@ Grid.prototype.nextRight = function(row) {
     }
     return -1
 };
+
 Grid.prototype.nextBottom = function(col) {
     var row = 0;
     while (row < this.rows) {
@@ -362,6 +387,7 @@ Grid.prototype.nextBottom = function(col) {
     }
     return -1
 };
+
 Grid.prototype.nextTop = function(col) {
     var row = this.rows-1;
     while (row >= 0) {
@@ -374,6 +400,7 @@ Grid.prototype.nextTop = function(col) {
     }
     return -1
 };
+
 Grid.prototype.count = function() {
     var n = 0;
     for (var row=0; row < this.rows; row++) {
@@ -385,6 +412,7 @@ Grid.prototype.count = function() {
     }
     return n;
 };
+
 Grid.prototype.buildColumns = function(type, ease, dur) {
     var row=0;
     timer = setInterval( (function(context) {
@@ -400,6 +428,7 @@ Grid.prototype.buildColumns = function(type, ease, dur) {
         }
     })(this), dur);
 };
+
 Grid.prototype.fade = function(color, ease, dur) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -410,6 +439,7 @@ Grid.prototype.fade = function(color, ease, dur) {
         }
     }
 };
+
 Grid.prototype.remove = function (ease, dur) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -426,6 +456,8 @@ Grid.prototype.remove = function (ease, dur) {
         }
     })(this), dur);
 };
+
+// TODO: Does this work? This is an old version where the gravity level doesn't even play...
 Grid.prototype.gravity = function(ease, dur) {
     for (var col=0; col < this.cols; col++) {
         for (var row=1; row < this.rows; row++) {
@@ -443,6 +475,8 @@ Grid.prototype.gravity = function(ease, dur) {
         }
     }
 };
+
+// TODO: Does this work? This is an old version where the gravity level doesn't even play...
 Grid.prototype.condense = function(ease, dur) {
     for (var col=0; col < this.cols; col++) {
         for (var row=Math.floor(this.rows/2)+1; row < this.rows; row++) {
@@ -508,6 +542,7 @@ Grid.prototype.condense = function(ease, dur) {
         }
     }
 };
+
 Grid.prototype.decolor = function(ease, dur) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -518,6 +553,7 @@ Grid.prototype.decolor = function(ease, dur) {
         }
     }
 };
+
 Grid.prototype.bind = function(action, fn) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -528,6 +564,7 @@ Grid.prototype.bind = function(action, fn) {
         }
     }
 };
+
 Grid.prototype.unbind = function(action) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -538,6 +575,7 @@ Grid.prototype.unbind = function(action) {
         }
     }
 };
+
 Grid.prototype.hide = function(ease, dur) {
     for (var row=0; row < this.rows; row++) {
         for (var col=0; col < this.cols; col++) {
@@ -558,6 +596,7 @@ function Box(color) {
         backgroundColor: this.color
     });
 }
+
 Box.prototype.draw = function(ease, dur) {
     ease = ease ? ease : 'swing';
     dur  = dur  ? dur  : 500
@@ -575,6 +614,7 @@ Box.prototype.draw = function(ease, dur) {
         easing: ease
     });
 };
+
 Box.prototype.hide = function(ease, dur) {
     ease = ease ? ease : 'swing';
     dur  = dur  ? dur  : 500
@@ -586,6 +626,7 @@ Box.prototype.hide = function(ease, dur) {
         easing: ease
     });
 };
+
 Box.prototype.remove = function(ease, dur) {
     ease = ease ? ease : 'swing';
     dur  = dur  ? dur  : 500
@@ -597,6 +638,7 @@ Box.prototype.remove = function(ease, dur) {
         }
     })(this), dur);
 };
+
 Box.prototype.move = function(ease, dur) {
     ease = ease ? ease : 'swing';
     dur  = dur  ? dur  : 500
@@ -611,25 +653,32 @@ Box.prototype.move = function(ease, dur) {
         easing: ease
     });
 };
+
 Box.prototype.setAttribs = function(dict) {
     for (key in dict) {
         this[key] = dict[key];
     }
 };
+
 Box.prototype.recolor = function(color, ease, dur) {
     this.ele.animate({backgroundColor: color}, {duration: dur, easing: ease});
     this.color = color;
 };
+
 Box.prototype.decolor = function(ease, dur) {
     this.ele.animate({backgroundColor: this.ocolor}, {duration: dur, easing: ease});
     this.color = this.ocolor;
 };
+
 Box.prototype.bind = function(action, fn) {
     this.ele.bind(action, fn);
-}
+    // empty line
+};
+
 Box.prototype.unbind = function(action) {
     this.ele.unbind(action);
-}
+    // empty line
+};
 
 function introBuild() {
     var attribs = gridAttribs;
@@ -648,6 +697,7 @@ function introBuild() {
     $('div.box').bind('click', introAdd);
     $('.mainButton').bind('click', introContinue);
 }
+
 function introAdd(event) {
     var ele = $(this);
     ele.unbind('click')
@@ -656,6 +706,7 @@ function introAdd(event) {
     main.pushToGrid(selected, row, col, 'easeOutQuad', 300);
     ele.bind('click', introRemove);
 }
+
 function introRemove(event) {
     var ele = $(this);
     ele.unbind('click')
@@ -664,6 +715,7 @@ function introRemove(event) {
     selected.pushToGrid(main, row, col, 'easeOutQuad', 300);
     ele.bind('click', introAdd);
 }
+
 function introContinue() {
     var n = selected.count();
     if (n < 2) {
@@ -711,6 +763,7 @@ function memoryBuild() {
         }, 500);
     }, 1500);
 }
+
 function memoryClick(event) {
     grid.unbind('click');
     var row = $(this).attr('row');
@@ -754,6 +807,7 @@ function memoryClick(event) {
         memoryRebind();
     }    
 }
+
 function memoryRebind() {
     for (var row = 0; row < grid.rows; row++) {
         for (var col=0; col < grid.cols; col++) {
@@ -764,6 +818,7 @@ function memoryRebind() {
         }
     }
 }
+
 function memoryContinue() {
     grid.unshuffle('easeOutQuad', 500);
     setTimeout(phases[stage++], 150);
@@ -792,7 +847,8 @@ function puzzleBuild() {
             grid.bind('click', puzzleClick);
         }, (shuffles+5)*250);
     }, 500);
- }
+}
+
 function puzzleCheckRow(row) {
     var col=0;
     var front = grid.getObject(row, col);
@@ -809,7 +865,8 @@ function puzzleCheckRow(row) {
         }
     }
     return true;
- }
+}
+
 function puzzleCheckCol(col) {
     var row=0;
     var front = grid.getObject(row, col);
@@ -826,7 +883,8 @@ function puzzleCheckCol(col) {
         }
     }
     return true;
- }
+}
+
 function puzzleCheck() {
     check = true;
     for (var row=0; row < grid.rows; row++) {
@@ -845,7 +903,8 @@ function puzzleCheck() {
         }
     }
     return check;
- }
+}
+
 function puzzleClick(event) {
     grid.unbind('click');
     
@@ -869,6 +928,7 @@ function puzzleClick(event) {
         grid.bind('click', puzzleClick);
     }
 }
+
 function puzzleContinue() {
     var puzzle_push = new Box(chosen[chosen.length-1]);
     puzzle_push.setAttribs({'orow': puzzle_row, 'ocol': puzzle_col});
@@ -909,6 +969,7 @@ function lightsBuild() {
         grid.bind('click', lightsClick);
     }, 1000 + chosen.length*500);
 }
+
 function lightsClick(event) {
     grid.unbind('click');
     
@@ -922,6 +983,7 @@ function lightsClick(event) {
         }, 250);
     }
 }
+
 function lightsChange(row, col, dur) {
     var dir = [[-1,0],[1,0],[0,-1],[0,1]];
     
@@ -934,8 +996,8 @@ function lightsChange(row, col, dur) {
             
         }
     }
-
 }
+
 function lightsCheck() {
     var color = grid.getObject(0,0).color; 
     for (var row=0; row < grid.rows; row++) {
@@ -947,11 +1009,11 @@ function lightsCheck() {
     }
     return true;
 }
+
 function lightsContinue() {
     setTimeout(function(){grid.decolor('easeInOutExpo', 500)}, 500);
     setTimeout(phases[stage++], 1500);
 }
-
 
 function reset(event) {
     $('.mainButton').unbind('click');
@@ -978,7 +1040,6 @@ var randomColor = function(){return '#'+Math.floor(Math.random()*16777215).toStr
 var colors = [];
 for (var i=0; i < 8; i++) {colors.push(randomColor());}
 */
-
 
 var fadeColor = '#444444';
 var chosen = [];
