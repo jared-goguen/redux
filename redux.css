@@ -1,0 +1,68 @@
+html {
+    background-color: #2B2928
+}
+
+div.grid {
+    position: absolute;
+    pointer-events: none;
+}
+
+div.box {
+    position: absolute;
+    opacity: 0.5;
+    border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+}
+
+div.box:hover {
+    opacity: 0.65;
+}
+
+div.mainButton {
+    position: absolute;
+    right: 1%;
+    top: 1%;
+    width: 10%;
+    height: 10%;
+    opacity: 0;
+    border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    background-color: #EEEEEE;
+}
+
+div.mainButton:hover {
+    background-color: #8693C3;
+}
+
+div.resetButton {
+    position: absolute;
+    left: 1%;
+    top: 1%;
+    width: 10%;
+    height: 10%;
+    opacity: 0;
+    border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    background-color: #EEEEEE;
+}
+
+div.resetButton:hover {
+    background-color: #C69383;
+}
+
+a.resume {
+    position: absolute;
+    right: 1%;
+    bottom: 1%;
+    opacity: 1;
+    color: #EEEEEE;
+    text-align:right;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-family: 'Special Elite', cursive;
+}
+
+a.resume:hover {
+    color: #96C383;
+}
+
