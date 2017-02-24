@@ -49,20 +49,3 @@ div.resetButton {
 div.resetButton:hover {
     background-color: #C69383;
 }
-
-a.resume {
-    position: absolute;
-    right: 1%;
-    bottom: 1%;
-    opacity: 1;
-    color: #EEEEEE;
-    text-align:right;
-    text-decoration: none;
-    font-size: 1.5em;
-    font-family: 'Special Elite', cursive;
-}
-
-a.resume:hover {
-    color: #96C383;
-}
-
